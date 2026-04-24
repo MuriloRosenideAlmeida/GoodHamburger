@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodHamburger.API", "GoodHamburger.API\GoodHamburger.API.csproj", "{415C2667-31C8-4C71-9FD8-2C97A046E534}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodHamburger.API", "GoodHamburger.API\GoodHamburger.API.csproj", "{415C2667-31C8-4C71-9FD8-2C97A046E534}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodHamburger.Domain", "GoodHamburger.Domain\GoodHamburger.Domain.csproj", "{F93474CD-0FA3-4B4D-8913-8892314C94DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodHamburger.Domain", "GoodHamburger.Domain\GoodHamburger.Domain.csproj", "{F93474CD-0FA3-4B4D-8913-8892314C94DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodHamburger.Application", "GoodHamburger.Application\GoodHamburger.Application.csproj", "{7EF2B07A-BB69-4EE7-81E1-53CB6C92FFDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodHamburger.Application", "GoodHamburger.Application\GoodHamburger.Application.csproj", "{7EF2B07A-BB69-4EE7-81E1-53CB6C92FFDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodHamburger.Infrastructure", "GoodHamburger.Infrastructure\GoodHamburger.Infrastructure.csproj", "{8ADF2C6B-FE5B-4FBC-867F-76779E554D95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodHamburger.Infrastructure", "GoodHamburger.Infrastructure\GoodHamburger.Infrastructure.csproj", "{8ADF2C6B-FE5B-4FBC-867F-76779E554D95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodHamburger.Tests", "GoodHamburger.Tests\GoodHamburger.Tests.csproj", "{075CFF29-69EA-4DE5-959A-F5AFC10E702E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8ADF2C6B-FE5B-4FBC-867F-76779E554D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ADF2C6B-FE5B-4FBC-867F-76779E554D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ADF2C6B-FE5B-4FBC-867F-76779E554D95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{075CFF29-69EA-4DE5-959A-F5AFC10E702E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{075CFF29-69EA-4DE5-959A-F5AFC10E702E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{075CFF29-69EA-4DE5-959A-F5AFC10E702E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{075CFF29-69EA-4DE5-959A-F5AFC10E702E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
