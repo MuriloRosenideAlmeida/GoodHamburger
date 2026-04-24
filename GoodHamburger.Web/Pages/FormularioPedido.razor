@@ -1,0 +1,118 @@
+﻿@page "/pedido/novo"
+@page "/pedido/editar/{Id:guid}"
+@inject HttpClient Http
+@inject NavigationManager Nav
+
+<h3>@(Id == null ? "Novo Pedido" : "Editar Pedido")</h3>
+
+@if (cardapio == null)
+{
+    <p>Carregando cardápio...</p>
+}
+else
+{
+    <div>
+        <label>Lanche</label>
+        <select @bind="lancheSelecionado">
+            <option value="">-- Nenhum --</option>
+            @foreach (var item in cardapio.Where(i => i.Categoria == "Lanche"))
+            {
+                <option value="@item.Nome">@item.Nome — @item.Preco</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label>Batata Frita</label>
+        <select @bind="batataSelecionada">
+            <option value="">-- Nenhum --</option>
+            @foreach (var item in cardapio.Where(i => i.Categoria == "BatataFrita"))
+            {
+                <option value="@item.Nome">@item.Nome — @item.Preco</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label>Refrigerante</label>
+        <select @bind="refrigeranteSelecionado">
+            <option value="">-- Nenhum --</option>
+            @foreach (var item in cardapio.Where(i => i.Categoria == "Refrigerante"))
+            {
+                <option value="@item.Nome">@item.Nome — @item.Preco</option>
+            }
+        </select>
+    </div>
+
+    @if (!string.IsNullOrEmpty(erro))
+    {
+        <p style="color:red">@erro</p>
+    }
+
+    <button @onclick="Salvar">Salvar</button>
+    <button @onclick="Cancelar">Cancelar</button>
+}
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+
+    private List<ItemCardapioModel>? cardapio;
+    private string lancheSelecionado = "";
+    private string batataSelecionada = "";
+    private string refrigeranteSelecionado = "";
+    private string erro = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        cardapio = await Http.GetFromJsonAsync<List<ItemCardapioModel>>("api/cardapio");
+
+        if (Id != null)
+        {
+            var pedido = await Http.GetFromJsonAsync<PedidoModel>($"api/pedidos/{Id}");
+            if (pedido != null)
+            {
+                lancheSelecionado = pedido.Lanche ?? "";
+                batataSelecionada = pedido.BatataFrita ?? "";
+                refrigeranteSelecionado = pedido.Refrigerante ?? "";
+            }
+        }
+    }
+
+    private async Task Salvar()
+    {
+        erro = "";
+
+        var itens = new List<string>();
+
+        if (!string.IsNullOrEmpty(lancheSelecionado)) itens.Add(lancheSelecionado);
+        if (!string.IsNullOrEmpty(batataSelecionada)) itens.Add(batataSelecionada);
+        if (!string.IsNullOrEmpty(refrigeranteSelecionado)) itens.Add(refrigeranteSelecionado);
+
+        if (itens.Count == 0)
+        {
+            erro = "Selecione pelo menos um item.";
+            return;
+        }
+
+        var body = new { itens };
+
+        HttpResponseMessage resposta;
+
+        if (Id == null)
+            resposta = await Http.PostAsJsonAsync("api/pedidos", body);
+        else
+            resposta = await Http.PutAsJsonAsync($"api/pedidos/{Id}", body);
+
+        if (resposta.IsSuccessStatusCode)
+            Nav.NavigateTo("/pedidos");
+        else
+            erro = "Erro ao salvar o pedido. Verifique os itens selecionados.";
+    }
+
+    private void Cancelar()
+    {
+        Nav.NavigateTo("/pedidos");
+    }
+}
+
+@using GoodHamburger.Web.Models

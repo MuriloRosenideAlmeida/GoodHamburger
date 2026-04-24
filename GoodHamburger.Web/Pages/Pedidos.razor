@@ -1,0 +1,81 @@
+﻿@page "/pedidos"
+@inject HttpClient Http
+@inject NavigationManager Nav
+
+<h3>Pedidos</h3>
+
+<button @onclick="NovoPedido">Novo Pedido</button>
+
+@if (pedidos == null)
+{
+    <p>Carregando...</p>
+}
+else if (pedidos.Count == 0)
+{
+    <p>Nenhum pedido encontrado.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Lanche</th>
+                <th>Batata Frita</th>
+                <th>Refrigerante</th>
+                <th>Total</th>
+                <th>Desconto</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pedido in pedidos)
+            {
+                <tr>
+                    <td>@pedido.Id.ToString().Substring(0, 8)...</td>
+                    <td>@(pedido.Lanche ?? "-")</td>
+                    <td>@(pedido.BatataFrita ?? "-")</td>
+                    <td>@(pedido.Refrigerante ?? "-")</td>
+                    <td>R$ @pedido.Total.ToString("F2")</td>
+                    <td>@pedido.PorcentagemDesconto%</td>
+                    <td>
+                        <button @onclick="() => EditarPedido(pedido.Id)">Editar</button>
+                        <button @onclick="() => DeletarPedido(pedido.Id)">Deletar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<PedidoModel>? pedidos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CarregarPedidos();
+    }
+
+    private async Task CarregarPedidos()
+    {
+        pedidos = await Http.GetFromJsonAsync<List<PedidoModel>>("api/pedidos");
+    }
+
+    private void NovoPedido()
+    {
+        Nav.NavigateTo("/pedido/novo");
+    }
+
+    private void EditarPedido(Guid id)
+    {
+        Nav.NavigateTo($"/pedido/editar/{id}");
+    }
+
+    private async Task DeletarPedido(Guid id)
+    {
+        await Http.DeleteAsync($"api/pedidos/{id}");
+        await CarregarPedidos();
+    }
+}
+
+@using GoodHamburger.Web.Models

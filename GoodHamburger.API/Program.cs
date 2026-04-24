@@ -17,9 +17,21 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 builder.Services.AddScoped<IPedidoRepository, PedidoRepositorio>();
 builder.Services.AddScoped<IPedidoService, PedidoServico>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirBlazor", policy =>
+    {
+        policy.WithOrigins("https://localhost:7283")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 app.UseMiddleware<ExcecaoMiddleware>();
+
+app.UseCors("PermitirBlazor");
 
 if (app.Environment.IsDevelopment())
 {

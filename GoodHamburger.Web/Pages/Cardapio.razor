@@ -1,0 +1,42 @@
+﻿@page "/cardapio"
+@inject HttpClient Http
+
+<h3>Cardápio</h3>
+
+@if (itens == null)
+{
+    <p>Carregando...</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Categoria</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in itens)
+            {
+                <tr>
+                    <td>@item.Nome</td>
+                    <td>@item.Preco</td>
+                    <td>@item.Categoria</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<ItemCardapioModel>? itens;
+
+    protected override async Task OnInitializedAsync()
+    {
+        itens = await Http.GetFromJsonAsync<List<ItemCardapioModel>>("api/cardapio");
+    }
+}
+
+@using GoodHamburger.Web.Models
